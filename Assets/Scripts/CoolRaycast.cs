@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Raycast : MonoBehaviour
+public class CoolRaycast : MonoBehaviour
 {
 
     RaycastHit hit;
@@ -17,6 +17,7 @@ public class Raycast : MonoBehaviour
             {
                 if (CompareTag("Bed"))
                 {
+                    hitObject = hit.transform.gameObject;
                     print("It works.");
                 }
             }
