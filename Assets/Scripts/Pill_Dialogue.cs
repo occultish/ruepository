@@ -14,40 +14,49 @@ public class Pill_Dialogue : MonoBehaviour
     void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>().GetComponent<DialogueManager>();
-        TriggerDialogue();
+        isTriggered = true;
 
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100f))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 150f))
         {
             hitObject = hit.transform.gameObject;
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (hitObject.tag == "Pills")
-                {
-                    TriggerDialogue();
-                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    if (isTriggered)
                     {
-                        ContinueDialogue();
+                        {
+                            TriggerPillDialogue();
+                            if (Input.GetKeyDown(KeyCode.Mouse0))
+                            {
+                                ContinueDialogue();
+                            }
+
+                            isTriggered = false;
+                        }
                     }
-                    print("It works.");
-                }
             }
         }
-        
+
     }
-    
-    public void TriggerDialogue()
+
+    public void Disappear()
+    {
+        dialogueManager.EndDialogue();
+    }
+
+    public void TriggerPillDialogue()
     {
         dialogueManager.StartDialogue(pillDialogue);
     }
-    
+
     public void ContinueDialogue()
     {
         dialogueManager.DisplayNextSentence();
     }
-
 }
