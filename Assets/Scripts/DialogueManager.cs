@@ -7,7 +7,9 @@ public class DialogueManager : MonoBehaviour {
 
 	//public Text nameText;
 	public Text dialogueText;
-
+	public AudioSource rummage;
+	public AudioSource cont;
+	public bool voidEnd;
 	public Animator animator;
 
 	private Queue<string> sentences;
@@ -19,6 +21,7 @@ public class DialogueManager : MonoBehaviour {
 
 	public void StartDialogue (Dialogue dialogue)
 	{
+		rummage.Play();
 		animator.SetBool("IsOpen", true);
 
 		//nameText.text = dialogue.name;
@@ -35,8 +38,10 @@ public class DialogueManager : MonoBehaviour {
 
 	public void DisplayNextSentence ()
 	{
+		cont.Play();
 		if (sentences.Count == 0)
 		{
+			voidEnd = true;
 			EndDialogue();
 			return;
 		}

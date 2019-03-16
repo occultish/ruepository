@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bed_Dialogue : MonoBehaviour
 {
-    private bool isTriggered;
+    public bool isBTriggered;
     public GameObject hitObject;
     public Dialogue bedDialogue;
     public DialogueManager dialogueManager;
@@ -14,7 +14,7 @@ public class Bed_Dialogue : MonoBehaviour
     void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>().GetComponent<DialogueManager>();
-        isTriggered = true;
+        isBTriggered = true;
 
     }
 
@@ -25,10 +25,10 @@ public class Bed_Dialogue : MonoBehaviour
         {
             hitObject = hit.transform.gameObject;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && isBTriggered)
             {
                 if (hitObject.tag == "Bed")
-                    if (isTriggered)
+                    if (isBTriggered)
                     {
                         {
                             TriggerBedDialogue();
@@ -37,12 +37,20 @@ public class Bed_Dialogue : MonoBehaviour
                                 ContinueDialogue();
                             }
 
-                            isTriggered = false;
+                            if ((dialogueManager.voidEnd) == true)
+                            {
+                                TriggerEnd();
+                            }
                         }
                     }
             }
         }
 
+    }
+    public void TriggerEnd()
+    {
+        isBTriggered = false;
+        dialogueManager.voidEnd = false;
     }
     public void Disappear()
     {

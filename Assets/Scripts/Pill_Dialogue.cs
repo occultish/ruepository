@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pill_Dialogue : MonoBehaviour
 {
-    private bool isTriggered;
+    public bool isPTriggered;
     public GameObject hitObject;
     public Dialogue pillDialogue;
     public DialogueManager dialogueManager;
@@ -14,7 +14,7 @@ public class Pill_Dialogue : MonoBehaviour
     void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>().GetComponent<DialogueManager>();
-        isTriggered = true;
+        isPTriggered = true;
 
     }
 
@@ -25,10 +25,10 @@ public class Pill_Dialogue : MonoBehaviour
         {
             hitObject = hit.transform.gameObject;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && isPTriggered)
             {
                 if (hitObject.tag == "Pills")
-                    if (isTriggered)
+                    if (isPTriggered)
                     {
                         {
                             TriggerPillDialogue();
@@ -37,12 +37,20 @@ public class Pill_Dialogue : MonoBehaviour
                                 ContinueDialogue();
                             }
 
-                            isTriggered = false;
+                            if ((dialogueManager.voidEnd) == true)
+                            {
+                                TriggerEnd();
+                            }
                         }
                     }
             }
         }
 
+    }
+    public void TriggerEnd()
+    {
+        isPTriggered = false;
+        dialogueManager.voidEnd = false;
     }
 
     public void Disappear()

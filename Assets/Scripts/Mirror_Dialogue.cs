@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Mirror_Dialogue : MonoBehaviour
 {
-    private bool isTriggered;
+    public bool isMTriggered;
     public GameObject hitObject;
     public Dialogue mirrorDialogue;
     public DialogueManager dialogueManager;
@@ -14,7 +14,7 @@ public class Mirror_Dialogue : MonoBehaviour
     void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>().GetComponent<DialogueManager>();
-        isTriggered = true;
+        isMTriggered = true;
 
     }
 
@@ -25,10 +25,10 @@ public class Mirror_Dialogue : MonoBehaviour
         {
             hitObject = hit.transform.gameObject;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && isMTriggered)
             {
                 if (hitObject.tag == "Mirror")
-                    if (isTriggered)
+                    if (isMTriggered)
                     {
                         {
                             TriggerMirrorDialogue();
@@ -37,12 +37,20 @@ public class Mirror_Dialogue : MonoBehaviour
                                 ContinueDialogue();
                             }
 
-                            isTriggered = false;
+                            if ((dialogueManager.voidEnd) == true)
+                            {
+                                TriggerEnd();
+                            }
                         }
                     }
             }
         }
 
+    }
+    public void TriggerEnd()
+    {
+        isMTriggered = false;
+        dialogueManager.voidEnd = false;
     }
 
     public void Disappear()

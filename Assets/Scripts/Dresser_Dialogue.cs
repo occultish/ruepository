@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dresser_Dialogue : MonoBehaviour
 {
-    private bool isTriggered;
+    public bool isDTriggered;
     public GameObject hitObject;
     public Dialogue dresserDialogue;
     public DialogueManager dialogueManager;
@@ -14,7 +14,7 @@ public class Dresser_Dialogue : MonoBehaviour
     void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>().GetComponent<DialogueManager>();
-        isTriggered = true;
+        isDTriggered = true;
 
     }
 
@@ -25,10 +25,10 @@ public class Dresser_Dialogue : MonoBehaviour
         {
             hitObject = hit.transform.gameObject;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && isDTriggered)
             {
                 if (hitObject.tag == "Dresser")
-                    if (isTriggered)
+                    if (isDTriggered)
                     {
                         {
                             TriggerDresserDialogue();
@@ -37,12 +37,20 @@ public class Dresser_Dialogue : MonoBehaviour
                                 ContinueDialogue();
                             }
 
-                            isTriggered = false;
+                            if ((dialogueManager.voidEnd) == true)
+                            {
+                                TriggerEnd();
+                            }
                         }
                     }
             }
         }
 
+    }
+    public void TriggerEnd()
+    {
+        isDTriggered = false;
+        dialogueManager.voidEnd = false;
     }
     public void Disappear()
     {

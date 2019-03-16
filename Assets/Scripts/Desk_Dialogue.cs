@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Desk_Dialogue : MonoBehaviour
 {
-    private bool isTriggered;
+    public bool isDDDTriggered;
     public GameObject hitObject;
     public Dialogue deskDialogue;
     public DialogueManager dialogueManager;
@@ -14,9 +14,10 @@ public class Desk_Dialogue : MonoBehaviour
     void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>().GetComponent<DialogueManager>();
-        isTriggered = true;
+        isDDDTriggered = true;
 
     }
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -25,10 +26,10 @@ public class Desk_Dialogue : MonoBehaviour
         {
             hitObject = hit.transform.gameObject;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && isDDDTriggered)
             {
                 if (hitObject.tag == "Desk")
-                    if (isTriggered)
+                    if (isDDDTriggered)
                     {
                         {
                             TriggerDeskDialogue();
@@ -37,12 +38,20 @@ public class Desk_Dialogue : MonoBehaviour
                                 ContinueDialogue();
                             }
 
-                            isTriggered = false;
+                            if ((dialogueManager.voidEnd) == true)
+                            {
+                                TriggerEnd();
+                            }
                         }
                     }
             }
         }
 
+    }
+    public void TriggerEnd()
+    {
+        isDDDTriggered = false;
+        dialogueManager.voidEnd = false;
     }
     public void Disappear()
     {
